@@ -1,0 +1,40 @@
+body {
+	text-align: center;
+}
+
+.note-container {
+	display: flex;
+}
+
+.note {
+	display: flex;
+	border: 1px solid black;
+	flex-direction: column;
+	width: 50px;
+	height: 20px;
+	align-items: center;
+	justify-content: center;
+}
+
+.note-btn {
+	border: 1px solid black;
+	width: 50px;
+	height: 20;
+}
+
+.clicked {
+	background-color: #a1a1a1;
+}
+
+.volume-controller {
+	display: flex;
+	font-weight: bold;
+}
+.volume-controller__input {
+	margin-left: 10px;
+}
+
+.pannel {
+	display: inline-block;
+	border: 1px solid black;
+}
