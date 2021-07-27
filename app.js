@@ -22,7 +22,7 @@ const FREQUENCY_FOR_KEY = {
 	C4: 261.6256,
 };
 
-let state = {
+let mainController = {
 	volume: 0.5,
 };
 
@@ -35,7 +35,7 @@ const makeNoteSound = (f) => {
 	oscillator.frequency.value = f;
 
 	gainNode.connect(audioCtx.destination);
-	gainNode.gain.value = state.volume;
+	gainNode.gain.value = mainController.volume;
 	gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 2);
 
 	oscillator.start();
@@ -44,7 +44,7 @@ const makeNoteSound = (f) => {
 const volumeController = document.querySelector('.volume-controller__input');
 volumeController.addEventListener('input', (e) => {
 	const { target } = e;
-	state.volume = parseFloat(target.value);
+	mainController.volume = parseFloat(target.value);
 });
 
 const NOTE_STATE = new Array(8);
@@ -53,41 +53,41 @@ for (let i = 0; i < 8; i++) {
 	for (let j = 0; j < 16; j++) NOTE_STATE[i][j] = false;
 }
 
-const PANNEL = document.querySelector('.pannel');
+const pannel = document.querySelector('.pannel');
 
 const NOTE_LIST = ['C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4'];
 
 for (let i = 0; i < NOTE_LIST.length; i++) {
-	const NOTE_CONTAINER = document.createElement('div');
-	NOTE_CONTAINER.classList.add('note-container');
-	const NOTE = document.createElement('div');
-	NOTE.classList.add('note');
-	NOTE.textContent = NOTE_LIST[i];
-	NOTE_CONTAINER.appendChild(NOTE);
+	const noteContainer = document.createElement('div');
+	noteContainer.classList.add('note-container');
+	const noteName = document.createElement('div');
+	noteName.classList.add('note');
+	noteName.textContent = NOTE_LIST[i];
+	noteContainer.appendChild(noteName);
 	for (let j = 0; j < 16; j++) {
-		const NOTE_BTN = document.createElement('div');
-		NOTE_BTN.classList.add('note-btn');
-		NOTE_CONTAINER.appendChild(NOTE_BTN);
-		NOTE_BTN.addEventListener('click', () => {
+		const noteCell = document.createElement('div');
+		noteCell.classList.add('note-btn');
+		noteContainer.appendChild(noteCell);
+		noteCell.addEventListener('click', () => {
 			if (NOTE_STATE[i][j]) {
 				NOTE_STATE[i][j] = false;
-				NOTE_BTN.classList.remove('clicked');
+				noteCell.classList.remove('clicked');
 			} else {
 				NOTE_STATE[i][j] = true;
-				NOTE_BTN.classList.add('clicked');
+				noteCell.classList.add('clicked');
 			}
 		});
 	}
-	PANNEL.appendChild(NOTE_CONTAINER);
+	pannel.appendChild(noteContainer);
 }
 
-const START_BTN = document.querySelector('#start');
-const STOP_BTN = document.querySelector('#stop');
-let INTERVAL_ID;
+const startBtn = document.querySelector('#start');
+const stopBtn = document.querySelector('#stop');
+let intervalId;
 
-START_BTN.addEventListener('click', () => {
+startBtn.addEventListener('click', () => {
 	let time = 0;
-	INTERVAL_ID = setInterval(() => {
+	intervalId = setInterval(() => {
 		for (let i = 0; i < NOTE_LIST.length; i++) {
 			if (NOTE_STATE[i][time]) {
 				let note = NOTE_LIST[i];
@@ -99,6 +99,6 @@ START_BTN.addEventListener('click', () => {
 	}, 300);
 });
 
-STOP_BTN.addEventListener('click', () => {
-	window.clearInterval(INTERVAL_ID);
+stopBtn.addEventListener('click', () => {
+	window.clearInterval(intervalId);
 });
