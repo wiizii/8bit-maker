@@ -22,6 +22,10 @@ const FREQUENCY_FOR_KEY = {
 	C4: 261.6256,
 };
 
+const NOTE_LIST = ['C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4'];
+
+const NUMBER_OF_CELL = 32;
+
 let mainController = {
 	volume: 0.5,
 };
@@ -47,33 +51,51 @@ volumeController.addEventListener('input', (e) => {
 	mainController.volume = parseFloat(target.value);
 });
 
-const NOTE_STATE = new Array(8);
-for (let i = 0; i < 8; i++) {
-	NOTE_STATE[i] = new Array(16);
-	for (let j = 0; j < 16; j++) NOTE_STATE[i][j] = false;
+/*
+
+NOTE_STATE[i][j] = {
+	this.noteCell
+	clicked : false,
+	
+}
+
+*/
+
+const NOTE_STATE = new Array(NOTE_LIST.length);
+
+for (let i = 0; i < NOTE_LIST.length; i++) {
+	NOTE_STATE[i] = new Array(NUMBER_OF_CELL);
 }
 
 const pannel = document.querySelector('.pannel');
-
-const NOTE_LIST = ['C3', 'D3', 'E3', 'F3', 'G3', 'A3', 'B3', 'C4'];
 
 for (let i = 0; i < NOTE_LIST.length; i++) {
 	const noteContainer = document.createElement('div');
 	noteContainer.classList.add('note-container');
 	const noteName = document.createElement('div');
-	noteName.classList.add('note');
+	noteName.classList.add('note-name');
 	noteName.textContent = NOTE_LIST[i];
 	noteContainer.appendChild(noteName);
-	for (let j = 0; j < 16; j++) {
+	for (let j = 0; j < NUMBER_OF_CELL; j++) {
 		const noteCell = document.createElement('div');
 		noteCell.classList.add('note-btn');
 		noteContainer.appendChild(noteCell);
+		NOTE_STATE[i][j] = {
+			note: noteCell,
+			state: false,
+			onPlay: function () {
+				this.note.classList.add('playing');
+			},
+			unPlay: function () {
+				if (this.note.classList.contains('playing')) this.note.classList.remove('playing');
+			},
+		};
 		noteCell.addEventListener('click', () => {
-			if (NOTE_STATE[i][j]) {
-				NOTE_STATE[i][j] = false;
+			if (NOTE_STATE[i][j].state) {
+				NOTE_STATE[i][j].state = false;
 				noteCell.classList.remove('clicked');
 			} else {
-				NOTE_STATE[i][j] = true;
+				NOTE_STATE[i][j].state = true;
 				noteCell.classList.add('clicked');
 			}
 		});
@@ -87,18 +109,21 @@ let intervalId;
 
 startBtn.addEventListener('click', () => {
 	let time = 0;
-	intervalId = setInterval(() => {
+	intervalId1 = setInterval(() => {
 		for (let i = 0; i < NOTE_LIST.length; i++) {
-			if (NOTE_STATE[i][time]) {
+			//여기 문제있음
+			NOTE_STATE[i][time - 1].unPlay();
+			NOTE_STATE[i][time].onPlay();
+			if (NOTE_STATE[i][time].state) {
 				let note = NOTE_LIST[i];
 				let frequency = FREQUENCY_FOR_KEY[note];
 				makeNoteSound(frequency);
 			}
 		}
-		time = (time + 1) % 16;
+		time = (time + 1) % NUMBER_OF_CELL;
 	}, 300);
 });
 
 stopBtn.addEventListener('click', () => {
-	window.clearInterval(intervalId);
+	window.clearInterval(intervalId1);
 });
