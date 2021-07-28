@@ -96,7 +96,7 @@ let intervalId;
 
 startBtn.addEventListener('click', () => {
 	let time = 0;
-	intervalId1 = setInterval(() => {
+	intervalId = setInterval(() => {
 		for (let i = 0; i < NOTE_LIST.length; i++) {
 			if (NOTE_STATE[i][time].state) {
 				let note = NOTE_LIST[i];
@@ -109,5 +109,5 @@ startBtn.addEventListener('click', () => {
 });
 
 stopBtn.addEventListener('click', () => {
-	window.clearInterval(intervalId1);
+	window.clearInterval(intervalId);
 });
