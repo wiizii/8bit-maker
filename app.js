@@ -51,16 +51,6 @@ volumeController.addEventListener('input', (e) => {
 	mainController.volume = parseFloat(target.value);
 });
 
-/*
-
-NOTE_STATE[i][j] = {
-	this.noteCell
-	clicked : false,
-	
-}
-
-*/
-
 const NOTE_STATE = new Array(NOTE_LIST.length);
 
 for (let i = 0; i < NOTE_LIST.length; i++) {
@@ -86,9 +76,6 @@ for (let i = 0; i < NOTE_LIST.length; i++) {
 			onPlay: function () {
 				this.note.classList.add('playing');
 			},
-			unPlay: function () {
-				if (this.note.classList.contains('playing')) this.note.classList.remove('playing');
-			},
 		};
 		noteCell.addEventListener('click', () => {
 			if (NOTE_STATE[i][j].state) {
@@ -111,9 +98,6 @@ startBtn.addEventListener('click', () => {
 	let time = 0;
 	intervalId1 = setInterval(() => {
 		for (let i = 0; i < NOTE_LIST.length; i++) {
-			//여기 문제있음
-			NOTE_STATE[i][time - 1].unPlay();
-			NOTE_STATE[i][time].onPlay();
 			if (NOTE_STATE[i][time].state) {
 				let note = NOTE_LIST[i];
 				let frequency = FREQUENCY_FOR_KEY[note];
