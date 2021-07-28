@@ -2,7 +2,7 @@
 	display: flex;
 }
 
-.note {
+.note-name {
 	display: flex;
 	border: 1px solid black;
 	flex-direction: column;
@@ -14,8 +14,8 @@
 
 .note-btn {
 	border: 1px solid black;
-	width: 50px;
-	height: 20;
+	width: 20px;
+	height: 20px;
 }
 
 .clicked {
@@ -33,4 +33,8 @@
 .pannel {
 	display: inline-block;
 	border: 1px solid black;
+}
+
+.playing {
+	background-color: rgba(220, 75, 220, 0.5);
 }
