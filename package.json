@@ -1,0 +1,22 @@
+{
+  "name": "8bit-maker",
+  "version": "1.0.1",
+  "description": "8bit-maker web",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wiizii/8bit-maker.git"
+  },
+  "keywords": [
+    "8bit-maker"
+  ],
+  "author": "wizi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wiizii/8bit-maker/issues"
+  },
+  "homepage": "https://github.com/wiizii/8bit-maker#readme"
+}
